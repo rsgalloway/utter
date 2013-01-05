@@ -33,10 +33,9 @@
 # ---------------------------------------------------------------------------------------------
 
 from distutils.core import setup
-from pyseq import __version__
 setup(
     name='utter',
-    version=__version__,
+    version='0.1',
     description='Text-to-speech Python library, with language translation support.',
     author='Ryan Galloway',
     author_email='ryan@rsgalloway.com',
