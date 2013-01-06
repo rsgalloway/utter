@@ -25,3 +25,15 @@ Or from source ::
     > cd utter
     > python setup.py install
 
+Web App
+-------
+
+Utter comes with a basic flask web app that uses the chrome webkit speech input
+to record a user's voice, which is converted to text before being passed to utter
+to translate and play back in a selected language.
+
+Running the app ::
+
+    > sudo python web/main.py
+
+will run the app at http://localhost on port 80.
