@@ -7,23 +7,26 @@ Usage
 
 Basic usage ::
 
-    > utter <file.txt> | "some text" [-s <source lang>] [-t <target lang>]
+    $ utter <file.txt> | "some text" [-s <source lang>] [-t <target lang>]
 
 Language specification must be in the form of a two letter code, e.g. for English 
-use the code "en", for Spannish use the code "es", etc. 
+use the code "en", for Spannish use the code "es", etc. It also requires first
+specifying a Google API key value, either in the source or in the environment. ::
+
+    $ export GOOGLE_API_KEY="<your api key>"
 
 Installation
 ------------
 
 Using easy install ::
 
-    > easy_install utter
+    $ easy_install utter
 
 Or from source ::
 
-    > git clone https://github.com/rsgalloway/utter.git
-    > cd utter
-    > python setup.py install
+    $ git clone https://github.com/rsgalloway/utter.git
+    $ cd utter
+    $ python setup.py install
 
 Web App
 -------
@@ -34,7 +37,13 @@ to translate and play back in a selected language.
 
 Running the app using Flask ::
 
-    > git checkout web
-    > sudo python web/main.py
+    $ git checkout web
+    $ sudo python web/main.py
 
 will run the app at http://localhost on port 80.
+
+To deploy on heroku ::
+
+    $ heroku create
+    $ git push heroku web:master
+

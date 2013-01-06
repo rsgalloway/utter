@@ -54,7 +54,8 @@ https://code.google.com/apis/console
 _PUNCUATION_ = [',', ':', ';', '.', '?', '!']
 
 # Put your Google API key here
-_KEY_ = '_YOUR_API_KEY_HERE_'
+global _KEY_
+_KEY_ = os.environ.get('GOOGLE_API_KEY', None)
 
 # Google Translate API URLs
 _SPEECH_URL_ = 'https://www.google.com/speech-api/v1/recognize'
@@ -64,7 +65,23 @@ _TTS_URL_ = 'http://translate.google.com/translate_tts'
 # Maximum chars per word group
 _MAX_CHAR_COUNT_ = 100
 
-def parseText(text):
+def set_api_key(key):
+    """
+    Sets the global Google API Key value.
+
+    :param key: Google API Key value
+    """
+    global _KEY_
+    _KEY_ = key
+
+def parse_text(text, max_chars=_MAX_CHAR_COUNT_):
+    """
+    Splits given text string into discrete sentences, based on 
+    puncutation and/or char limits.
+
+    :param text: Text string
+    :param max_chars: Maximum chars in a sentence (default 100)
+    """
     if os.path.isfile(text):
         text = open(text, 'r').read().strip().replace('\n', ' ')
     sentences = []
@@ -72,7 +89,7 @@ def parseText(text):
     sentence = ''
     for w in words:
         if w[len(w)-1] in _PUNCUATION_:
-            if (len(sentence) + len(w) + 1 < _MAX_CHAR_COUNT_):
+            if (len(sentence) + len(w) + 1 < max_chars):
                 sentence += ' ' + w
                 sentences.append(sentence.strip())
             else:
@@ -80,7 +97,7 @@ def parseText(text):
                 sentences.append(w.strip())
             sentence = ''
         else:
-            if (len(sentence) + len(w) + 1 < _MAX_CHAR_COUNT_):   
+            if (len(sentence) + len(w) + 1 < max_chars):   
                 sentence += ' ' + w 
             else:
                 sentences.append(sentence.strip())
@@ -91,7 +108,9 @@ def parseText(text):
 
 def stt(wave):
     """
-    converts speech to text from an input wave file.
+    Converts speech to text from an input wave file.
+
+    :param wave: Path to .wav file.
     """
     f = open(wave, 'rb')
     data = f.read()
@@ -112,6 +131,8 @@ def trans(text, source="en", target="en"):
     :param source: source language abbreviation, e.g. "en"
     :param target: target language abbreviation
     """
+    if _KEY_ is None:
+        raise Exception("Google API key not set")
     opener = urllib2.build_opener()
     opener.addheaders = [('User-agent', 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)')]
     query_string = urlencode(OrderedDict(key=_KEY_, q=text, source=source, target=target))
@@ -132,11 +153,11 @@ def tts(text, source, target):
     outdir = tempfile.mkdtemp()
     opener = urllib2.build_opener()
     opener.addheaders = [('User-agent', 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)')]
-    sentences = parseText(text)
+    sentences = parse_text(text)
 
     # translate
     if source != target:
-        sentences = parseText(trans(text, source, target))
+        sentences = parse_text(trans(text, source, target))
 
     # text to speech
     for i, sentence in enumerate(sentences):

@@ -41,6 +41,11 @@ __doc__ = """
 utter is a simple Python utility that converts text to speech, and
 optionally language translation.
 
+To use language translation, utter requires you to set a Google API
+key value in your environment, e.g.
+
+    > export GOOGLE_API_KEY="<your api key value>"
+
 Usage:
     utter <file.txt> | 'some text' [-s <lang>] [-t <lang>]
 """
@@ -48,10 +53,11 @@ Usage:
 # System command used to play mp3 files
 _PLAY_COMMAND_ = {
     'darwin': 'afplay',
-    'posix': 'mpg123'
+    'posix': 'mpg123',
+    'win32': 'vlc'
 }
 
-def createParser():
+def create_parser():
     from optparse import OptionParser, OptionGroup
     parser = OptionParser(usage=__doc__)
     base_group = OptionGroup(parser, 'Basic Options')
@@ -76,7 +82,7 @@ def main(text):
     return play(utter.tts(text, opts.source, opts.target))
 
 if __name__ == "__main__":
-    parser = createParser()
+    parser = create_parser()
     (opts, args) = parser.parse_args()
     if len(args) != 1:
         parser.print_help()
