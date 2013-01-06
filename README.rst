@@ -38,9 +38,9 @@ to translate and play back in a selected language.
 Running the app using Flask ::
 
     $ git checkout web
-    $ python web/main.py
+    $ python main.py
 
-will run the app at http://localhost on port 5000.
+will run the app at http://localhost:5000.
 
 To deploy on heroku ::
 
