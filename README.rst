@@ -2,6 +2,13 @@
 Utter is a text-to-speech (tts) Python library that also supports multiple language
 translation (requires Google Translate API key).
 
+You can try the Heroku web app here:
+
+http://utter.herokuapp.com
+
+Note: I've capped the language translation at 2M characters per day. Once that's
+reached, it won't work any more that day.
+
 Usage
 -----
 
