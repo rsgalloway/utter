@@ -22,7 +22,7 @@ color: #a11;
 font-family: Verdana, Geneva, sans-serif;
 font-size: 36pt;
 text-align:center;
-margin-left: 40px;
+margin-left: 45px;
 }
 #tts-form {
 width:0px;
@@ -90,9 +90,11 @@ utter
 
 <form id="tts-form" target="dostuff" action="tts" method="post">
     <input type="hidden" name="txt" id="txt" />
+    <input type="hidden" name="source" id="source" value="{{source}}" />
     <input x-webkit-speech id="mic" />
     <select name="lang" id="lang">
     <option value=zh-CN>Cantonese</option>
+    <option value="en">English</option>
     <option value="fr">French</option>
     <option value="it">Italian</option>
     <option value="ko">Korean</option>
@@ -119,6 +121,7 @@ utter
 <iframe width="1" height="1" frameborder="0" name="dostuff" id="dostuff"></iframe>
 
 <script>
+console.log("source lang: {{source}}");
 var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
 
 if (!is_chrome) {
@@ -130,7 +133,6 @@ var mic = document.getElementById('mic');
 var tts = document.getElementById('tts-form');
 mic.onfocus = mic.blur;
 mic.onwebkitspeechchange = function(e) {
-    //console.log(e); // SpeechInputEvent
     txt.value = mic.value;
     tts.submit();
     mic.value = '';
