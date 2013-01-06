@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+
+{% if error %}
+    <script>
+    alert("Sorry, there was an error!");
+    </script>
+{% else %}
+<audio autoplay height="1" width="1">
+  {% for mp3 in mp3s %}
+  <source src="{{mp3}}" type="audio/mpeg">
+  {% endfor %}
+</audio>
+{% endif %}
+
+</body>
+</html>

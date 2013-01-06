@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>utter - text to speech with translation</title>
+<style>
+body {
+    background: #111;
+}
+#container {
+height:100%;
+}
+#main {
+width: 200px;
+height: 100%;
+display: block;
+margin: auto;
+margin-top: 20%;
+}
+#utter {
+color: #a11;
+font-family: Verdana, Geneva, sans-serif;
+font-size: 36pt;
+text-align:center;
+margin-left: 40px;
+}
+#tts-form {
+width:0px;
+background:#000;
+}
+#mic {
+background: black;
+font-size: 25px;
+width: 50px;
+height: 50px;
+cursor: pointer;
+border: none;
+position: relative;
+float: left;
+outline: none;
+border-top-left-radius: 10px;
+border-bottom-left-radius: 10px;
+}
+#txt {
+outline: none;
+color: #3E3;
+background: black;
+border: 0px;
+height: 25px;
+width: 450px;
+}
+#lang {
+outline: none;
+width: 200px;
+height: 52px;
+border: 0px;
+border-radius: 0px;
+background: #010101;
+color: #555;
+font-family: tahoma;
+-webkit-appearance: none;
+font-size: 18pt;
+padding-left: 18px;
+border-top-right-radius: 10px;
+border-bottom-right-radius: 10px;
+}
+#footer {
+color: #333;
+position:absolute;
+bottom:0;
+width:100%;
+height:40px;
+text-align:center;
+margin-left:20px;
+}
+#footer a {
+color: #333;
+}
+</style>
+</head>
+<body>
+
+
+<div id="container">
+<div id="main">
+
+<div id="utter">
+utter
+</div>
+
+<form id="tts-form" target="dostuff" action="tts" method="post">
+    <input type="hidden" name="txt" id="txt" />
+    <input x-webkit-speech id="mic" />
+    <select name="lang" id="lang">
+    <option value=zh-CN>Cantonese</option>
+    <option value="fr">French</option>
+    <option value="it">Italian</option>
+    <option value="ko">Korean</option>
+    <option value="de">German</option>
+    <option value="ja">Japanese</option>
+    <option value=zh-TW>Mandarin</option>
+    <option value="pt">Portuguese</option>
+    <option value="ru">Russian</option>
+    <option value="es">Spanish</option>
+    <option value="sv">Swedish</option>
+    </select>
+</form>
+</div>
+
+<a href="http://github.com/rsgalloway/utter"><img style="position: fixed; top: 0; right: 0; border: 0;"
+  src="http://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+
+<div id=footer>
+  &copy; Copyright 2012-2013 <a href='http://rsgalloway.com/'>Ryan Galloway</a>.
+</div>
+
+</div>
+
+<iframe width="1" height="1" frameborder="0" name="dostuff" id="dostuff"></iframe>
+
+<script>
+var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+
+if (!is_chrome) {
+    alert("Sorry, only chrome is supported right now.");
+};
+
+var txt = document.getElementById('txt');
+var mic = document.getElementById('mic');
+var tts = document.getElementById('tts-form');
+mic.onfocus = mic.blur;
+mic.onwebkitspeechchange = function(e) {
+    //console.log(e); // SpeechInputEvent
+    txt.value = mic.value;
+    tts.submit();
+    mic.value = '';
+};
+</script>
+
+</body>
+</html>
