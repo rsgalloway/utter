@@ -2,6 +2,7 @@ Flask==0.9
 Jinja2==2.6
 Werkzeug==0.8.3
 distribute==0.6.31
+newrelic==1.9.0.21
 simplejson==3.0.5
 utter==0.1.1
 wsgiref==0.1.2
