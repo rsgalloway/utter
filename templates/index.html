@@ -126,7 +126,8 @@ console.log("source lang: {{source}}");
 var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
 
 if (!is_chrome) {
-    alert("Sorry, only chrome is supported right now.");
+    alert("Sorry, only non-mobile versions of Chrome are supported right now. Try it on your desktop!");
+    window.location = "http://github.com/rsgalloway/utter";
 };
 
 var txt = document.getElementById('txt');
