@@ -34,7 +34,6 @@
 
 import os
 import sys
-import glob
 import utter
 
 __doc__ = """
@@ -50,13 +49,6 @@ Usage:
     utter <file.txt> | 'some text' [-s <lang>] [-t <lang>]
 """
 
-# System command used to play mp3 files
-_PLAY_COMMAND_ = {
-    'darwin': 'afplay',
-    'posix': 'mpg123',
-    'win32': 'vlc'
-}
-
 def create_parser():
     from optparse import OptionParser, OptionGroup
     parser = OptionParser(usage=__doc__)
@@ -68,23 +60,10 @@ def create_parser():
     parser.add_option_group(base_group)
     return parser
 
-def play(mp3dir):
-    files = glob.glob(os.path.join(mp3dir, 'tts_*.mp3'))
-    try:
-        for f in files:
-            cmd = '%s %s' %(_PLAY_COMMAND_.get(sys.platform), f)
-            os.system(cmd)
-    except Exception, e:
-        print e
-        return 1
-
-def main(text):
-    return play(utter.tts(text, opts.source, opts.target))
-
 if __name__ == "__main__":
     parser = create_parser()
     (opts, args) = parser.parse_args()
     if len(args) != 1:
         parser.print_help()
     else:
-        sys.exit(main(args[0]))
+        sys.exit(utter.play(args[0], opts.source, opts.target))

@@ -34,6 +34,7 @@
 
 import os
 import sys
+import glob
 import urllib2
 from urllib import urlencode, quote
 import tempfile
@@ -49,6 +50,13 @@ these by visiting
 
 https://code.google.com/apis/console
 """
+
+# System command used to play mp3 files
+_PLAY_COMMAND_ = {
+    'darwin': 'afplay',
+    'posix': 'mpg123',
+    'win32': 'vlc'
+}
 
 # Puncuation characters, used to split word groups
 _PUNCUATION_ = [',', ':', ';', '.', '?', '!']
@@ -171,3 +179,25 @@ def tts(text, source, target):
         f.close()
 
     return outdir
+
+def play(text, source="en", target="en"):
+    """
+    Plays text in a given language, and optionally translates it to another
+    language.
+
+    :param text: text to read
+    :param source: source language, e.g. "en"
+    :param target: target language, e.g. "it"
+    """
+
+    def _play(mp3dir):
+        files = glob.glob(os.path.join(mp3dir, 'tts_*.mp3'))
+        try:
+            for f in files:
+                cmd = '%s %s' %(_PLAY_COMMAND_.get(sys.platform), f)
+                os.system(cmd)
+        except Exception, e:
+            print e
+            return 1
+
+    return _play(tts(text, source, target))
