@@ -35,7 +35,7 @@
 from distutils.core import setup
 setup(
     name='utter',
-    version='0.1.1',
+    version='0.1.2',
     description='Text-to-speech Python library, with language translation support.',
     author='Ryan Galloway',
     author_email='ryan@rsgalloway.com',
