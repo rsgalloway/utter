@@ -12,9 +12,14 @@ reached, it won't work any more that day.
 Usage
 -----
 
-Basic usage ::
+Basic usage, command line ::
 
     $ utter <file.txt> | "some text" [-s <source lang>] [-t <target lang>]
+
+or Python API ::
+
+    >>> import utter
+    >>> utter.play("this is a test", target="de")
 
 Language specification must be in the form of a two letter code, e.g. for English 
 use the code "en", for Spannish use the code "es", etc. It also requires first
