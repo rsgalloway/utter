@@ -2,3 +2,5 @@ venv
 build
 *.pyc
 *.swp
+MANIFEST
+dist
